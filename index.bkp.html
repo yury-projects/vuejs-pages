@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome to Vue</title>
+  <!-- <script src="https://unpkg.com/vue"></script> -->
+  <script src="node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <!-- <img src="https://vuejs.org/images/logo.png" alt="Vue logo"> -->
+    <ol>
+      <li v-for="todo in todos">
+        {{ todo.text }}
+      </li>
+    </ol>
+
+    <p>{{ message }}</p>
+    <button v-on:click="reverseMessage">Reverse Message</button>
+
+    <p>With components</p>
+    <ol>
+      <!--
+        Now we provide each todo-item with the todo object
+        it's representing, so that its content can be dynamic.
+        We also need to provide each component with a "key",
+        which will be explained later.
+      -->
+      <todo-item
+        v-for="item in groceryList"
+        v-bind:todo="item"
+        v-bind:key="item.id">
+      </todo-item>
+    </ol>
+  </div>
+  <script>
+    Vue.component('todo-item', {
+      props: ['todo'],
+      template: '<li>{{ todo.text }}</li>'
+    });
+
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        message: "Hello Vue.js!",
+        todos: [
+          { text: 'Learn JavaScript' },
+          { text: 'Learn Vue' },
+          { text: 'Build something awesome' }
+        ],
+        groceryList: [
+          { id: 0, text: 'Vegetables' },
+          { id: 1, text: 'Cheese' },
+          { id: 2, text: 'Whatever else humans are supposed to eat' }
+        ]
+      },
+      methods: {
+        reverseMessage: function () {
+          this.message = this.message.split('').reverse().join('')
+        }
+      },
+      created: function () {
+        // `this` points to the vm instance
+        console.log('a is: ' + this.message);
+      }
+    })
+  </script>
+
+</body>
+</html>
